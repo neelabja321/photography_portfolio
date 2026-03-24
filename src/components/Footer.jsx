@@ -10,7 +10,7 @@ export default function Footer() {
         
         <div className="flex items-center gap-3">
           <Camera className="w-5 h-5 text-gold" />
-          <span className="font-serif text-lg tracking-widest text-white/80">UNSCRIPTED NATURE.</span>
+          <span className="font-serif text-lg tracking-widest text-white/80">NATURE UNSCRIPTED.</span>
         </div>
 
         <div className="text-white/40 text-sm font-light">
