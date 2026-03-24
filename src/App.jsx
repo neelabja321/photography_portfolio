@@ -6,6 +6,7 @@ import About from './components/About';
 import GallerySection from './components/Gallery/GallerySection';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import ImageProtection from './components/ImageProtection';
 
 function App() {
   // Initialize Lenis smooth scroll
@@ -43,6 +44,7 @@ function App() {
         <Contact />
       </main>
       <Footer />
+      <ImageProtection />
     </div>
   );
 }
