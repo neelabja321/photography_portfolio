@@ -15,7 +15,6 @@ export default function Navbar() {
   const links = [
     { name: 'Home', href: '#' },
     { name: 'About', href: '#about' },
-    { name: 'Featured', href: '#featured' },
     { name: 'Gallery', href: '#gallery' },
     { name: 'Contact', href: '#contact' },
   ];
@@ -35,7 +34,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
         <a href="#" className="flex items-center gap-2 group">
           <Camera className="w-6 h-6 text-gold group-hover:scale-110 transition-transform" />
-          <span className="font-serif text-xl tracking-wider font-semibold">NEELABJA.</span>
+          <span className="font-serif text-xl tracking-wider font-semibold">NATURE UNSCRIPTED.</span>
         </a>
 
         {/* Desktop Links */}

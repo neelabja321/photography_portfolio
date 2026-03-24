@@ -4,7 +4,6 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
 import GallerySection from './components/Gallery/GallerySection';
-import Featured from './components/Featured';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 
@@ -40,7 +39,6 @@ function App() {
       <main>
         <Hero />
         <About />
-        <Featured />
         <GallerySection />
         <Contact />
       </main>

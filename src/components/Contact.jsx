@@ -9,15 +9,37 @@ const InstagramIcon = (props) => (
 export default function Contact() {
   const [formState, setFormState] = useState('idle');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setFormState('submitting');
-    // Simulate API call
-    setTimeout(() => {
-      setFormState('success');
-      e.target.reset();
-      setTimeout(() => setFormState('idle'), 3000);
-    }, 1500);
+    
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/neelabjasinharoy@gmail.com", {
+        method: "POST",
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: e.target.name.value,
+          email: e.target.email.value,
+          message: e.target.message.value
+        })
+      });
+      
+      if (response.ok) {
+        setFormState('success');
+        e.target.reset();
+        setTimeout(() => setFormState('idle'), 3000);
+      } else {
+        setFormState('idle');
+        alert("Sorry, there was an issue sending your message.");
+      }
+    } catch (err) {
+      console.error(err);
+      setFormState('idle');
+      alert("Network error occurred.");
+    }
   };
 
   return (
@@ -42,13 +64,13 @@ export default function Contact() {
           </p>
 
           <div className="space-y-8 flex flex-col">
-            <a href="mailto:contact@neelabja.com" className="flex items-center gap-6 group">
+            <a href="mailto:neelabjasinharoy@gmail.com" className="flex items-center gap-6 group">
               <div className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center group-hover:border-gold group-hover:bg-gold/5 transition-colors">
                 <Mail className="w-5 h-5 text-white/50 group-hover:text-gold transition-colors" />
               </div>
               <div>
                 <div className="text-xs uppercase tracking-widest text-white/40 mb-1">Email</div>
-                <div className="text-lg font-light group-hover:text-white transition-colors">contact@neelabja.com</div>
+                <div className="text-lg font-light group-hover:text-white transition-colors">neelabjasinharoy@gmail.com</div>
               </div>
             </a>
             
@@ -58,7 +80,7 @@ export default function Contact() {
               </div>
               <div>
                 <div className="text-xs uppercase tracking-widest text-white/40 mb-1">Instagram</div>
-                <div className="text-lg font-light group-hover:text-white transition-colors">@neelabja.wild</div>
+                <div className="text-lg font-light group-hover:text-white transition-colors">@mr_sinharoy</div>
               </div>
             </a>
 
@@ -87,6 +109,7 @@ export default function Contact() {
                 <label className="block text-xs uppercase tracking-widest text-white/50 mb-3">Name</label>
                 <input 
                   type="text" 
+                  name="name"
                   required
                   className="w-full bg-transparent border-b border-white/20 placeholder-white/20 pb-3 focus:outline-none focus:border-gold transition-colors text-white font-light"
                   placeholder="John Doe"
@@ -96,6 +119,7 @@ export default function Contact() {
                 <label className="block text-xs uppercase tracking-widest text-white/50 mb-3">Email</label>
                 <input 
                   type="email" 
+                  name="email"
                   required
                   className="w-full bg-transparent border-b border-white/20 placeholder-white/20 pb-3 focus:outline-none focus:border-gold transition-colors text-white font-light"
                   placeholder="john@example.com"
@@ -104,6 +128,7 @@ export default function Contact() {
               <div>
                 <label className="block text-xs uppercase tracking-widest text-white/50 mb-3">Message</label>
                 <textarea 
+                  name="message"
                   required
                   rows="4"
                   className="w-full bg-transparent border-b border-white/20 placeholder-white/20 pb-3 focus:outline-none focus:border-gold transition-colors text-white font-light resize-none"
