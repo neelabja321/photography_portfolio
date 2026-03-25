@@ -55,7 +55,8 @@ export default function GallerySection() {
                   src={photo} 
                   alt={`Wildlife capture ${idx}`} 
                   loading="lazy"
-                  className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 will-change-transform"
+                  className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 will-change-transform select-none"
+                  style={{ WebkitTouchCallout: 'none', WebkitUserSelect: 'none' }}
                 />
                 
                 {/* Hover overlay hint */}
