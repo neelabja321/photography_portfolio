@@ -8,16 +8,16 @@ export default function Hero() {
   const y = useTransform(scrollY, [0, 1000], [0, 300]);
   const opacity = useTransform(scrollY, [0, 500], [1, 0]);
 
-  const { photos, isLoading } = usePhotos();
+  const { photos: bgPhotos, isLoading } = usePhotos('/background_photos.json');
   const [bgImage, setBgImage] = useState(null);
 
   useEffect(() => {
-    if (photos && photos.length > 0) {
-      // Pick a random image from the gallery for the hero, or fallback to the first one
-      const randomIndex = Math.floor(Math.random() * photos.length);
-      setBgImage(photos[randomIndex]);
+    if (bgPhotos && bgPhotos.length > 0) {
+      // Pick a random image from the background_photos for the hero
+      const randomIndex = Math.floor(Math.random() * bgPhotos.length);
+      setBgImage(bgPhotos[randomIndex]);
     }
-  }, [photos]);
+  }, [bgPhotos]);
 
   return (
     <section className="relative h-screen w-full overflow-hidden flex items-center justify-center bg-dark" id="hero">
