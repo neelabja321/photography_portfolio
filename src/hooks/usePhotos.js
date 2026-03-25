@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export function usePhotos() {
+export function usePhotos(manifestUrl = '/photos.json') {
   const [photos, setPhotos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -8,7 +8,7 @@ export function usePhotos() {
   useEffect(() => {
     async function fetchPhotos() {
       try {
-        const response = await fetch('/photos.json');
+        const response = await fetch(manifestUrl);
         if (!response.ok) {
           throw new Error('Failed to fetch photos manifest');
         }
@@ -23,7 +23,7 @@ export function usePhotos() {
     }
     
     fetchPhotos();
-  }, []);
+  }, [manifestUrl]);
 
   return { photos, isLoading, error };
 }
