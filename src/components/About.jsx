@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 export default function About() {
   const stats = [
     { label: "Years Experience", value: "10+" },
-    { label: "Species Captured", value: "450+" },
+    { label: "Species Captured", value: "100+" },
     { label: "Locations Explored", value: "25" },
   ];
 
