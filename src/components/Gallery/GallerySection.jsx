@@ -1,37 +1,75 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { MessageCircle } from 'lucide-react';
 import { usePhotos } from '../../hooks/usePhotos';
+import { usePhotoEngagement } from '../../hooks/useEngagement';
+import LikeButton from '../Engagement/LikeButton';
 import Lightbox from './Lightbox';
 
-const GalleryItem = ({ item, setSelectedIndex }) => (
-  <motion.div
-    initial={{ opacity: 0, filter: 'blur(10px)', scale: 0.95 }}
-    whileInView={{ opacity: 1, filter: 'blur(0px)', scale: 1 }}
-    viewport={{ once: true, margin: "100px" }}
-    transition={{ duration: 1, ease: "easeOut" }}
-    className="relative overflow-hidden group cursor-pointer rounded-sm breakdown-inside-avoid aspect-square"
-    onClick={() => setSelectedIndex(item.originalIndex)}
-  >
-    <div className="absolute inset-0 bg-dark/20 group-hover:bg-transparent transition-colors duration-500 z-10" />
-    <img 
-      src={item.photo} 
-      alt={`Wildlife capture ${item.originalIndex}`} 
-      loading="lazy"
-      className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 will-change-transform select-none"
-      style={{ WebkitTouchCallout: 'none', WebkitUserSelect: 'none' }}
-    />
-    
-    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
-      <div className="bg-dark/60 backdrop-blur-md px-6 py-2 rounded-full border border-white/10 text-sm tracking-widest uppercase transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 drop-shadow-lg">
-        View
+const GalleryItem = ({ item, onOpen }) => {
+  const { likes, liked, commentCount, toggleLike } = usePhotoEngagement(item.photo);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, filter: 'blur(10px)', scale: 0.95 }}
+      whileInView={{ opacity: 1, filter: 'blur(0px)', scale: 1 }}
+      viewport={{ once: true, margin: "100px" }}
+      transition={{ duration: 1, ease: "easeOut" }}
+      className="relative overflow-hidden group cursor-pointer rounded-sm aspect-square"
+      onClick={() => onOpen(item.originalIndex)}
+    >
+      <div className="absolute inset-0 bg-dark/20 group-hover:bg-transparent transition-colors duration-500 z-10" />
+      <img 
+        src={item.photo} 
+        alt={`Wildlife capture ${item.originalIndex}`} 
+        loading="lazy"
+        className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 will-change-transform select-none"
+        style={{ WebkitTouchCallout: 'none', WebkitUserSelect: 'none' }}
+      />
+      
+      {/* pointer-events-none so this overlay never swallows clicks meant for
+          the like button sitting underneath it. */}
+      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none">
+        <div className="bg-dark/60 backdrop-blur-md px-6 py-2 rounded-full border border-white/10 text-sm tracking-widest uppercase transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 drop-shadow-lg">
+          View
+        </div>
       </div>
-    </div>
-  </motion.div>
-);
+
+      {/* Engagement bar: always visible so counts are readable at a glance. */}
+      <div className="absolute bottom-0 left-0 right-0 z-30 flex items-center gap-4 px-4 py-3 bg-gradient-to-t from-dark/90 via-dark/50 to-transparent">
+        <LikeButton liked={liked} count={likes} onToggle={toggleLike} size={17} />
+
+        <button
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation();
+            onOpen(item.originalIndex, true);
+          }}
+          aria-label={`View ${commentCount} comments`}
+          className="inline-flex items-center gap-2 text-white/70 hover:text-gold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-full"
+        >
+          <MessageCircle size={17} />
+          <span className="text-sm font-light tabular-nums leading-none">{commentCount}</span>
+        </button>
+      </div>
+    </motion.div>
+  );
+};
 
 export default function GallerySection() {
   const { photos, isLoading, error } = usePhotos();
   const [selectedIndex, setSelectedIndex] = useState(null);
+  const [showComments, setShowComments] = useState(false);
+
+  const openPhoto = (index, withComments = false) => {
+    setSelectedIndex(index);
+    setShowComments(withComments);
+  };
+
+  const closePhoto = () => {
+    setSelectedIndex(null);
+    setShowComments(false);
+  };
   
   // Responsive Columns State
   const [colsCount, setColsCount] = useState(3);
@@ -112,7 +150,7 @@ export default function GallerySection() {
                 <GalleryItem 
                   key={item.photo + item.originalIndex} 
                   item={item} 
-                  setSelectedIndex={setSelectedIndex} 
+                  onOpen={openPhoto} 
                 />
               ))}
             </motion.div>
@@ -124,8 +162,10 @@ export default function GallerySection() {
       <Lightbox 
         photos={photos} 
         currentIndex={selectedIndex} 
-        onClose={() => setSelectedIndex(null)} 
+        onClose={closePhoto} 
         onChangeIndex={setSelectedIndex}
+        showComments={showComments}
+        onToggleComments={setShowComments}
       />
     </section>
   );

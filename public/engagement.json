@@ -1,0 +1,44 @@
+{
+  "_about": "Shared baseline for photo likes and comments. Keys are photo paths exactly as they appear in photos.json. Every visitor sees these values; their own likes and comments are added on top and stored only in their browser. Keys starting with _ are ignored by the app.",
+  "_shape": {
+    "likes": "whole number, optional",
+    "comments": "array of { name, text, at } where at is a millisecond timestamp or an ISO date string"
+  },
+
+  "/photos/pair.jpg": {
+    "likes": 42,
+    "comments": [
+      {
+        "name": "Ananya",
+        "text": "The symmetry in this one is unreal. How long did you wait for them to line up like that?",
+        "at": "2026-02-18T09:20:00Z"
+      },
+      {
+        "name": "Neelabja",
+        "text": "About three hours from a hide near the water. They preened for a few seconds and were gone.",
+        "at": "2026-02-18T14:05:00Z"
+      }
+    ]
+  },
+
+  "/photos/bee eater portrait.jpg": {
+    "likes": 67,
+    "comments": [
+      {
+        "name": "Rohit",
+        "text": "That catchlight in the eye makes the whole frame. Beautiful separation from the background.",
+        "at": "2026-02-20T11:42:00Z"
+      }
+    ]
+  },
+
+  "/photos/Asian ferry blue bird.jpg": {
+    "likes": 31,
+    "comments": []
+  },
+
+  "/photos/DSC_0608.JPG": {
+    "likes": 18,
+    "comments": []
+  }
+}

@@ -7,6 +7,7 @@ import GallerySection from './components/Gallery/GallerySection';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import ImageProtection from './components/ImageProtection';
+import { EngagementProvider } from './hooks/useEngagement';
 
 function App() {
   // Initialize Lenis smooth scroll
@@ -35,17 +36,19 @@ function App() {
   }, []);
 
   return (
-    <div className="bg-dark min-h-screen text-white selection:bg-gold selection:text-dark">
-      <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <GallerySection />
-        <Contact />
-      </main>
-      <Footer />
-      <ImageProtection />
-    </div>
+    <EngagementProvider>
+      <div className="bg-dark min-h-screen text-white selection:bg-gold selection:text-dark">
+        <Navbar />
+        <main>
+          <Hero />
+          <About />
+          <GallerySection />
+          <Contact />
+        </main>
+        <Footer />
+        <ImageProtection />
+      </div>
+    </EngagementProvider>
   );
 }
 

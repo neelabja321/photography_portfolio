@@ -33,3 +33,22 @@ function generateManifestForDir(dirName, outputFileName) {
 
 generateManifestForDir('photos', 'photos.json');
 generateManifestForDir('background_photos', 'background_photos.json');
+
+/**
+ * Likes and comments live in public/engagement.json. It is hand-curated, so we
+ * only ever create it when missing — never overwrite it.
+ */
+function ensureEngagementFile() {
+  const engagementFile = path.join(__dirname, '../public/engagement.json');
+
+  if (fs.existsSync(engagementFile)) return;
+
+  try {
+    fs.writeFileSync(engagementFile, JSON.stringify({}, null, 2));
+    console.log('[generateManifest] Created empty engagement.json');
+  } catch (error) {
+    console.error('[generateManifest] Error creating engagement.json:', error);
+  }
+}
+
+ensureEngagementFile();
