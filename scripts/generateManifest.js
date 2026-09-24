@@ -18,11 +18,17 @@ function generateManifestForDir(dirName, outputFileName) {
       return;
     }
 
+    const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
+
     const files = fs.readdirSync(dirPath);
-    const photos = files.filter(file => {
-      const ext = path.extname(file).toLowerCase();
-      return supportedExtensions.includes(ext);
-    }).map(file => `/${dirName}/${file}`);
+    const photos = files
+      .filter((file) => {
+        const ext = path.extname(file).toLowerCase();
+        return supportedExtensions.includes(ext);
+      })
+      // Natural sort so "2" comes before "10" and numbered files stay in order.
+      .sort(collator.compare)
+      .map((file) => `/${dirName}/${file}`);
 
     fs.writeFileSync(outputFile, JSON.stringify(photos, null, 2));
     console.log(`[generateManifest] Successfully wrote ${photos.length} photos to ${outputFileName}`);

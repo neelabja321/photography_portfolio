@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { MessageCircle } from 'lucide-react';
 import { usePhotos } from '../../hooks/usePhotos';
@@ -21,8 +21,10 @@ const GalleryItem = ({ item, onOpen }) => {
       <div className="absolute inset-0 bg-dark/20 group-hover:bg-transparent transition-colors duration-500 z-10" />
       <img 
         src={item.photo} 
-        alt={`Wildlife capture ${item.originalIndex}`} 
+        alt={`Wildlife capture ${item.originalIndex + 1}`} 
         loading="lazy"
+        decoding="async"
+        draggable={false}
         className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 will-change-transform select-none"
         style={{ WebkitTouchCallout: 'none', WebkitUserSelect: 'none' }}
       />
